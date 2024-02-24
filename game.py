@@ -33,8 +33,6 @@ def main():
         load_params_b = pickle.dumps(load_params)
         conn.sendall(load_params_b)
         game_state_b = conn.recv(1024)
-
-        # print loaded data
         game_state = pickle.loads(game_state_b)
         print(game_state)
 
@@ -46,3 +44,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
