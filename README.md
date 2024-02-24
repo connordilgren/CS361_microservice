@@ -50,4 +50,4 @@ sockets and then:
     stream to the microservice.
 
 UML sequence diagram:
-![alt text](https://github.com/connordilgren/CS361_microservice/UML_sequence_diagram.png?raw=true)
+![alt text](https://github.com/connordilgren/CS361_microservice/main/UML_sequence_diagram.png?raw=true)
