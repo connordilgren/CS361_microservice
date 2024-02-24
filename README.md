@@ -42,4 +42,4 @@ The close command is used to close the microservice. To close the microservice, 
 
 
 UML sequence diagram:
-![alt text](https://github.com/connordilgren/CS361_microservice/blob/main/UML_sequence_diagram.png)
+![alt text](https://github.com/connordilgren/CS361_microservice/blob/main/UML_sequence_diagram.png?)
