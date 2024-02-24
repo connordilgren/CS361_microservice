@@ -1,16 +1,5 @@
+import pickle
 import socket
-
-
-def save_game(game_state_b: bytes,
-              file_path: str = "saved_game.txt"):
-    with open(file_path, 'wb') as f:
-        f.write(game_state_b)
-
-
-def load_game(file_path: str = "saved_game.txt"):
-    with open(file_path, 'rb') as f:
-        game_state_b = f.read()
-    return game_state_b
 
 
 def main():
@@ -21,17 +10,26 @@ def main():
         s.connect((HOST, PORT))
 
         while True:
-            # receive command
-            data = s.recv(1024)
-            if data.decode() == "save":
+            # receive and unpickle command
+            data_b = s.recv(1024)
+            data = pickle.loads(data_b)
+
+            if data["command"] == "save":
                 # receive and save data
-                data = s.recv(1024)
-                save_game(data)
-            elif data.decode() == "load":
+                game_state = data["game_state"]
+                file = data["file"]
+                with open(file, 'wb') as f:
+                    pickle.dump(game_state, f)
+
+            elif data["command"] == "load":
                 # load and send data
-                game_state_b = load_game()
+                file = data["file"]
+                with open(file, 'rb') as f:
+                    game_state = pickle.load(f)
+                game_state_b = pickle.dumps(game_state)
                 s.sendall(game_state_b)
-            elif data.decode() == "close":
+
+            elif data["command"] == "close":
                 break
 
 

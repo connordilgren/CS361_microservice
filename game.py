@@ -21,21 +21,27 @@ def main():
         conn, addr = s.accept()
 
         # send game state to be saved, as bytes object
-        game_state_b = pickle.dumps(game_state)
-        conn.sendall(b"save")
-        conn.sendall(game_state_b)
+        save_params = {"command": "save",
+                       "game_state": game_state,
+                       "file": "game_1.txt"}
+        save_params_b = pickle.dumps(save_params)
+        conn.sendall(save_params_b)
 
         # load game state back in
-        # note: at most only one game state can be saved
-        conn.sendall(b"load")
-        data = conn.recv(1024)
+        load_params = {"command": "load",
+                       "file": "game_1.txt"}
+        load_params_b = pickle.dumps(load_params)
+        conn.sendall(load_params_b)
+        game_state_b = conn.recv(1024)
 
         # print loaded data
-        game_state_loaded = pickle.loads(data)
-        print(game_state_loaded)
+        game_state = pickle.loads(game_state_b)
+        print(game_state)
 
         # close microservice
-        conn.sendall(b"close")
+        close_params = {"command": "close"}
+        close_params_b = pickle.dumps(close_params)
+        conn.sendall(close_params_b)
 
 
 if __name__ == "__main__":
